@@ -3,7 +3,7 @@
  * Plugin Name:       VULNZ
  * Plugin URI:        https://vulnz.headwall.net
  * Description:       A plugin to integrate with the VULNZ API.
- * Version:           0.1.0
+ * Version:           1.0.0
  * Author:            Paul Faulkner
  * Author URI:        https://headwall-hosting.com/
  * License:           GPL v2 or later

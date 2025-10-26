@@ -188,9 +188,12 @@ class Api_Client {
 
 					// TODO: Analyse the wordpress-plugins array and sort it, so the vulnerable ones are first.
 					if ( isset( $website_data['wordpress-plugins'] ) && is_array( $website_data['wordpress-plugins'] ) ) {
-						usort( $website_data['wordpress-plugins'], function ( $a, $b ) {
-							return ( $b['has_vulnerabilities'] ?? false ) <=> ( $a['has_vulnerabilities'] ?? false );
-						} );
+						usort(
+							$website_data['wordpress-plugins'],
+							function ( $a, $b ) {
+								return ( $b['has_vulnerabilities'] ?? false ) <=> ( $a['has_vulnerabilities'] ?? false );
+							}
+						);
 					}
 
 					if ( WEBSITE_DATA_CACHE_TTL > 0 && ! empty( $cache_key ) ) {
@@ -200,7 +203,7 @@ class Api_Client {
 			}
 		}
 
-		if( !is_array( $website_data ) && !is_null( $website_data ) ) {
+		if ( ! is_array( $website_data ) && ! is_null( $website_data ) ) {
 			$website_data = null;
 		}
 

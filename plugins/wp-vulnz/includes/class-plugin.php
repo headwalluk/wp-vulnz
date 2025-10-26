@@ -243,5 +243,4 @@ class Plugin {
 
 		return $api_client->create_or_update_website( $domain, $body );
 	}
-
 }

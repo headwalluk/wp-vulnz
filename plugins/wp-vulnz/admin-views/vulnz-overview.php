@@ -13,9 +13,9 @@ $site_url   = \site_url();
 $our_domain = \wp_parse_url( $site_url, PHP_URL_HOST );
 
 // Diagnostics - grab meta for a domain that has vulnerable plugins, so we can test the output.
-$our_domain   = 'www.table-art.co.uk';
+$our_domain = 'www.table-art.co.uk';
 
-$website_data    = $api_client->get_website( $our_domain );
+$website_data = $api_client->get_website( $our_domain );
 
 echo '<div class="wrap">';
 printf( '<h1>%s</h1>', esc_html( get_admin_page_title() ) );
@@ -23,13 +23,11 @@ echo '<p>Summary information will be displayed here.</p>';
 printf( '<button id="wp-vulnz-sync-now" class="button button-primary">%s</button>', esc_html__( 'Sync Now', 'wp-vulnz' ) );
 
 
-if( empty( $website_data ) ) {
-    echo '<p>' . esc_html__( 'No data available for this website. Please click "Sync Now" to retrieve data from the API.', 'wp-vulnz' ) . '</p>';
-}
-elseif( !array_key_exists( 'wordpress-plugins', $website_data ) ) {
-    echo '<p>' . esc_html__( 'No plugin data available for this website.', 'wp-vulnz' ) . '</p>';
-}
-else {
+if ( empty( $website_data ) ) {
+	echo '<p>' . esc_html__( 'No data available for this website. Please click "Sync Now" to retrieve data from the API.', 'wp-vulnz' ) . '</p>';
+} elseif ( ! array_key_exists( 'wordpress-plugins', $website_data ) ) {
+	echo '<p>' . esc_html__( 'No plugin data available for this website.', 'wp-vulnz' ) . '</p>';
+} else {
 	printf( '<h2>%s</h2>', esc_html__( 'Installed Plugins', 'wp-vulnz' ) );
 	echo '<table class="wp-list-table widefat fixed striped">';
 	echo '<thead>';
