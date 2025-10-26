@@ -12,9 +12,6 @@ $api_client = WP_Vulnz\get_plugin()->get_api_client();
 $site_url   = \site_url();
 $our_domain = \wp_parse_url( $site_url, PHP_URL_HOST );
 
-// Diagnostics - grab meta for a domain that has vulnerable plugins, so we can test the output.
-$our_domain = 'www.table-art.co.uk';
-
 $website_data = $api_client->get_website( $our_domain );
 
 echo '<div class="wrap">';

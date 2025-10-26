@@ -49,6 +49,16 @@ function sanitize_api_key( string $api_key ): string {
 
 
 /**
+ * Get the URL to our settings page.
+ *
+ * @return string The settings page URL.
+ */
+function get_our_settings_url(): string {
+	return \admin_url( 'admin.php?page=wp-vulnz-settings' );
+}
+
+
+/**
  * Get the cache key for storing website data.
  *
  * @param string $domain The domain name.

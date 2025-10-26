@@ -10,9 +10,7 @@ namespace WP_Vulnz;
 // Block direct access.
 defined( 'ABSPATH' ) || die();
 
-define( 'WP_Vulnz\PLUGIN_VERSION', '0.1.0' );
-define( 'WP_Vulnz\PLUGIN_PATH', \plugin_dir_path( __FILE__ ) );
-define( 'WP_Vulnz\PLUGIN_INCLUDES', PLUGIN_PATH . 'includes/' );
+define( 'WP_Vulnz\PLUGIN_DIR', \plugin_dir_path( __FILE__ ) );
 define( 'WP_Vulnz\PLUGIN_URL', \plugin_dir_url( __FILE__ ) );
 
 // Cron schedule and action names.

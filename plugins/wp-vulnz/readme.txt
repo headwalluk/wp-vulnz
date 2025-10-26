@@ -4,7 +4,7 @@ Tags: security, vulnerabilities, api, integration
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,9 @@ VULNZ is an external project for working with vulnerability data and related wor
 Yes. You will need access to a VULNZ API endpoint. By default the plugin points to `https://vulnz.headwall.net/api`, but you can change this in Settings.
 
 = What data does the plugin send? =
-When enabled, the plugin sends basic site metadata (title, SSL status, admin login URL, admin email, WordPress version) and your installed plugin list to the configured VULNZ API to help assess the environment.
+When enabled, the plugin sends basic site metadata (title, SSL status, admin login URL, WordPress version) and your installed plugin list to the configured VULNZ API to help assess the environment.
+
+No personal data are sent - only website metadata.
 
 = Can I disable background syncing? =
 Yes. Turn off the Enable setting under WP VULNZ → Settings to stop the hourly task.
@@ -56,6 +58,11 @@ Yes. Turn off the Enable setting under WP VULNZ → Settings to stop the hourly 
 1. WP VULNZ Summary and Settings pages in the WordPress admin.
 
 == Changelog ==
+
+= 1.0.2 =
+* Tidying up bits-and-bobs in the codebase.
+* Added a settings link from the wp-admin/plugins.php page.
+* Moved the PLUGIN_VERSION constant so it gets updated properly with the plugin's header meta.
 
 = 1.0.0 =
 * First stable release.

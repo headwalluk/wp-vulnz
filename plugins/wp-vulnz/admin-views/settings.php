@@ -33,7 +33,7 @@ echo '</tr>'; // .form-table row.
 
 echo '<tr valign="top">';
 printf( '<th scope="row">%s</th>', esc_html__( 'API Key', 'wp-vulnz' ) );
-printf( '<td><input type="text" name="wp_vulnz_api_key" value="%s" size="50" /></td>', esc_attr( get_option( 'wp_vulnz_api_key' ) ) );
+printf( '<td><input type="password" name="wp_vulnz_api_key" value="%s" size="50" autocomplete="off" /></td>', esc_attr( get_option( 'wp_vulnz_api_key' ) ) );
 echo '</tr>'; // .form-table row.
 
 echo '</table>'; // .form-table.

@@ -27,15 +27,15 @@ class Admin_Hooks {
 			return;
 		}
 
-		\wp_enqueue_style( 'wp-vulnz-admin', PLUGIN_URL . 'assets/admin.css', array(), \WP_Vulnz\PLUGIN_VERSION );
+		\wp_enqueue_style( 'wp-vulnz-admin', PLUGIN_URL . 'assets/admin.css', array(), PLUGIN_VERSION );
 
-		\wp_enqueue_script( 'wp-vulnz-admin', PLUGIN_URL . 'assets/admin.js', array( 'jquery' ), \WP_Vulnz\PLUGIN_VERSION, true );
+		\wp_enqueue_script( 'wp-vulnz-admin', PLUGIN_URL . 'assets/admin.js', array( 'jquery' ), PLUGIN_VERSION, true );
 
 		\wp_localize_script(
 			'wp-vulnz-admin',
 			'wp_vulnz',
 			array(
-				'nonce' => \wp_create_nonce( \WP_Vulnz\SYNC_NOW_ACTION_NONCE ),
+				'nonce' => \wp_create_nonce( SYNC_NOW_ACTION_NONCE ),
 			)
 		);
 	}
@@ -44,14 +44,14 @@ class Admin_Hooks {
 	 * Render the plugin summary page.
 	 */
 	public function render_summary_page() {
-		include_once \WP_Vulnz\PLUGIN_PATH . 'admin-views/vulnz-overview.php';
+		include_once PLUGIN_DIR . 'admin-views/vulnz-overview.php';
 	}
 
 	/**
 	 * Render the plugin settings page.
 	 */
 	public function render_settings_page() {
-		include_once \WP_Vulnz\PLUGIN_PATH . 'admin-views/settings.php';
+		include_once PLUGIN_DIR . 'admin-views/settings.php';
 	}
 
 	/**
@@ -59,14 +59,28 @@ class Admin_Hooks {
 	 */
 	public function admin_notice() {
 		if ( ! \get_option( 'wp_vulnz_enabled' ) ) {
-			$settings_url = \admin_url( 'admin.php?page=wp-vulnz-settings' );
-
 			printf(
 				'<div class="notice notice-warning"><p>%s <a href="%s">%s</a></p></div>',
 				esc_html__( 'WP VULNZ API is not enabled. ', 'wp-vulnz' ),
-				esc_url( $settings_url ),
+				esc_url( get_our_settings_url() ),
 				esc_html__( 'Click here to enable', 'wp-vulnz' )
 			);
 		}
+	}
+
+	/**
+	 * Add a settings link to the plugin's entry in the plugins list table.
+	 *
+	 * @param array $links An array of plugin action links.
+	 * @return array
+	 */
+	public function add_settings_link( $links ) {
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			get_our_settings_url(),
+			\__( 'Settings', 'wp-vulnz' )
+		);
+		\array_unshift( $links, $settings_link );
+		return $links;
 	}
 }

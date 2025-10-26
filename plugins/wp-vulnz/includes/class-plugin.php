@@ -50,6 +50,8 @@ class Plugin {
 
 		\add_action( 'admin_enqueue_scripts', array( $admin_hooks, 'enqueue_assets' ) );
 		\add_action( 'admin_notices', array( $admin_hooks, 'admin_notice' ) );
+
+		\add_filter( 'plugin_action_links_' . \plugin_basename( PLUGIN_FILE ), array( $admin_hooks, 'add_settings_link' ) );
 	}
 
 	/**
@@ -156,27 +158,21 @@ class Plugin {
 	}
 
 	/**
-	 * Run the hourly scheduled task.
-	 *
-	 * This checks the plugin enable setting and, if enabled, performs
-	 * a lightweight action and updates a "last run" timestamp. Replace
-	 * the TODO section with your actual hourly logic (e.g. syncing with
-	 * the VULNZ API).
+	 * Run hourly scheduled task(s).
 	 */
 	public function run_hourly_task(): void {
 		$enabled = (bool) \get_option( 'wp_vulnz_enabled', false );
-		if ( ! $enabled ) {
-			return;
+
+		if ( $enabled ) {
+			$this->sync_website_with_vulnz();
+
+			// Record when the task last ran for admin visibility.
+			\update_option( 'wp_vulnz_last_cron_run', \current_time( 'mysql' ) );
 		}
-
-		$this->sync_website_with_vulnz();
-
-		// Record when the task last ran for admin visibility.
-		\update_option( 'wp_vulnz_last_cron_run', \current_time( 'mysql' ) );
 	}
 
 	/**
-	 * Plugin activation: schedule the hourly cron if not already scheduled.
+	 * Plugin activation: schedule our cron if not already scheduled.
 	 */
 	public static function activate(): void {
 		if ( ! \wp_next_scheduled( SCHEDULE_NAME ) ) {
@@ -213,7 +209,7 @@ class Plugin {
 	}
 
 	/**
-	 * Sync the website data with the API.
+	 * Sync our website's data with the API.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -235,7 +231,6 @@ class Plugin {
 			'is_ssl'            => \is_ssl(),
 			'meta'              => array(
 				'Admin'      => \wp_login_url(),
-				'Owner'      => \get_bloginfo( 'admin_email' ),
 				'WP Version' => \get_bloginfo( 'version' ),
 			),
 			'wordpress-plugins' => get_installed_plugins(),

@@ -43,7 +43,39 @@ class Api_Client {
 	 * @return boolean
 	 */
 	public function is_available(): bool {
-		return ! empty( $this->api_url ) && ! empty( $this->api_key ) && filter_var( $this->api_url, FILTER_VALIDATE_URL );
+		if ( empty( $this->api_url ) || empty( $this->api_key ) ) {
+			return false;
+		}
+
+		if ( ! filter_var( $this->api_url, FILTER_VALIDATE_URL ) ) {
+			return false;
+		}
+
+		$scheme = \wp_parse_url( $this->api_url, PHP_URL_SCHEME );
+		$host   = \wp_parse_url( $this->api_url, PHP_URL_HOST );
+
+		// Require HTTPS to avoid leaking credentials over plaintext.
+		if ( 'https' !== $scheme ) {
+			return false;
+		}
+
+		if ( ! is_string( $host ) || '' === $host ) {
+			return false;
+		}
+
+		// Block obvious local/loopback/private targets to reduce SSRF risk.
+		if ( 'localhost' === $host || '127.0.0.1' === $host ) {
+			return false;
+		}
+
+		if ( filter_var( $host, FILTER_VALIDATE_IP ) ) {
+			// If it's an IP, disallow private/reserved ranges.
+			if ( ! filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
