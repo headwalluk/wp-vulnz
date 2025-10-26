@@ -16,7 +16,6 @@ $website_data = $api_client->get_website( $our_domain );
 
 echo '<div class="wrap">';
 printf( '<h1>%s</h1>', esc_html( get_admin_page_title() ) );
-echo '<p>Summary information will be displayed here.</p>';
 printf( '<button id="wp-vulnz-sync-now" class="button button-primary">%s</button>', esc_html__( 'Sync Now', 'wp-vulnz' ) );
 
 
